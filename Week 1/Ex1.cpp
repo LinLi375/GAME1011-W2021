@@ -2,6 +2,7 @@
 #include<cmath>
 using namespace std;
 
+//This is a Circle class
 class Circle
 {
 private:
