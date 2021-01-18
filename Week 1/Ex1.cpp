@@ -8,14 +8,8 @@ class Circle
 private:
 	double radius;
 public:
-	void setRadius(double r)
-	{
-		radius = r;
-	}
-	double clacArea()
-	{
-		return 3.14 * pow(radius, 2);
-	}
+	void setRadius(double r);
+	double clacArea();
 };
 
 int main()
@@ -30,4 +24,14 @@ int main()
 	cout << "The area of circle 2 is " << circle2.clacArea() << endl;
 
 	return 0;
+}
+
+void Circle::setRadius(double r)
+{
+	radius = r;
+}
+
+double Circle::clacArea()
+{
+	return 3.14 * pow(radius, 2);
 }
