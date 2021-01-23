@@ -16,13 +16,14 @@ public:
 		m_description = "Defualt Empty";
 		m_scoreValue = 0;
 	}
-	
-	Achievements (string title1, string description1, int scoreValue1)
+
+	Achievements(string title1, string description1, int scoreValue1)
 	{
 		m_title = title1;
 		m_description = description1;
 		m_scoreValue = scoreValue1;
 	}
+	~Achievements() {}
 
 	string getAchievementsData()
 	{
@@ -34,14 +35,15 @@ public:
 	}
 };
 
-class Games
+class Games : public Achievements
 {
 private:
 	string m_gameName;
 	string m_publisher;
 	string m_developer;
-	int m_achievementsNum;
-	Achievements* m_pAchievements;
+	size_t m_achiNum;
+	Achievements* m_pAchievements = nullptr;
+
 
 public:
 	Games()
@@ -57,43 +59,54 @@ public:
 		m_publisher = publisher1;
 		m_developer = developer1;
 	}
-	
-	void setAchievementSize(int achSize)
+	~Games()
 	{
-		m_pAchievements = new Achievements[achSize];
-	}
-	
-	void setAchievementData(string title2, string description2, int scoreValue2, int achSize)
-	{
-		m_pAchievements[achSize] = Achievements(title2, description2, scoreValue2);
+		delete[] m_pAchievements;
+		m_pAchievements = nullptr;
 	}
 
-	void setAchievementMemberOrdinal(int achMemOrdinal)
+	void setAchievementInfo()
 	{
-		m_achievementsNum = achMemOrdinal;
+		string m_title;
+		string m_description;
+		int m_scoreValue;
+		size_t achSize;
+
+		//set number
+		cin >> achSize;
+
+
+		this->setAchievementSize(achSize);
+		for (int i = 0; i < achSize; i++)
+		{
+			// title
+			getline(cin, m_title);
+			getline(cin, m_title);
+			// description
+			getline(cin, m_description);
+			// value
+			cin >> m_scoreValue;
+			cout << "AAA";
+			this->m_pAchievements[i] = Achievements(m_title, m_description, m_scoreValue);
+		}
+	}
+
+	void setAchievementSize(size_t achSize)
+	{
+		m_achiNum = achSize;
+		m_pAchievements = new Achievements[achSize];
 	}
 
 	void getAchievementData()
 	{
-		for (int i = 1; i <= m_achievementsNum; i++)
+		for (int i = 1; i <= m_achiNum; i++)
 		{
-			cout << "\nThe NO." << i << "Achievement is" << m_pAchievements[i - 1].getAchievementsData() << endl;
+			cout << "\nThe NO." << i << "Achievement is" << this->m_pAchievements[i - 1].getAchievementsData() << endl;
 		}
 	}
-
-	int getAchMemberOrdinal()
+	size_t getAchiSize()
 	{
-		return m_achievementsNum;
-	}
-
-	string getGameName()
-	{
-		return m_gameName;
-	}
-
-	string getPublisher()
-	{
-		return m_publisher;
+		return m_achiNum;
 	}
 
 	string getGameInfo()
@@ -104,20 +117,23 @@ public:
 		data += "\n";
 		return data;
 	}
-
-	void deleteAchArray()
+	void getAllAchiData()
 	{
-		delete[] m_pAchievements;
-		m_pAchievements = nullptr;
+		for (int i = 0; i < m_achiNum; i++)
+		{
+			cout << this->m_pAchievements[i].getAchievementsData();
+		}
+
 	}
 };
 
 
-class Platform
+class Platform : public Games
 {
 private:
 	string m_platformName;
 	string m_manufacturer;
+	size_t m_gameNum;
 	Games* m_pGames = nullptr;
 
 public:
@@ -127,66 +143,58 @@ public:
 		m_manufacturer = "Default Empty";
 	}
 
-	Platform (string platformName1, string manufacturer1)
+	Platform(string platformName1, string manufacturer1)
 	{
 		m_platformName = platformName1;
 		m_manufacturer = manufacturer1;
 	}
 
-	void setPlatformName (string platName)
+	~Platform()
 	{
-		m_platformName = platName;
+		// *m_pGames()
+		delete[] m_pGames;
+		m_pGames = nullptr;
 	}
 
-	void setManufacturer (string manufacName)
+	void setGamesSize()
 	{
-		m_manufacturer = manufacName;
-	}
-
-	void setGamesSize (int gamesNum)
-	{
+		size_t gamesNum;
+		cin >> gamesNum;
+		m_gameNum = gamesNum;
 		m_pGames = new Games[gamesNum];
 	}
 
-	void setAchievementsSize(int gamesNum, int achSize)
+	void setGamesInfo()
 	{
-		m_pGames[gamesNum].setAchievementMemberOrdinal(achSize);
+		string gamesName3, publisher3, developer3;
+
+		for (int i = 0; i < m_gameNum; i++)
+		{
+			// name
+			cout << "n";
+			getline(cin, gamesName3);
+			getline(cin, gamesName3);
+			// publisher
+			cout << "publisher3";
+			getline(cin, publisher3);
+			// developer
+			cout << "developer";
+			getline(cin, developer3);
+
+			this->m_pGames[i] = Games(gamesName3, publisher3, developer3);
+
+			this->m_pGames[i].setAchievementInfo();
+		}
 	}
 
-	void setGamesInfo (string gamesName3, string publisher3, string developer3, int achNum3)
+	size_t getGamesSize()
 	{
-		m_pGames[achNum3] = Games(gamesName3, publisher3, developer3);
+		return m_gameNum;
 	}
-	
-	void setAchievementInfo(
-		string title4, 
-		string description4, 
-		int scoreValue4, 
-		int gameSize4, int achNum4)
+	Games getGameNum(int i)
 	{
-		m_pGames[gameSize4].setAchievementData(title4, description4, scoreValue4, achNum4);
+		return this->m_pGames[i];
 	}
-
-	void setAchievementOrdinal(int gamesSize5, int achMemOrdinal)
-	{
-		m_pGames[gamesSize5].setAchievementMemberOrdinal(achMemOrdinal);
-	}
-
-	int getAchMemOrdianl(int achMemOrd1)
-	{
-		return m_pGames[achMemOrd1].getAchMemberOrdinal();
-	}
-
-	void getGamesInfo(int gamesSize)
-	{
-		cout << m_pGames[gamesSize].getGameInfo();
-	}
-	
-	void getAchievementsAllInfo(int achAllInfo)
-	{
-		m_pGames[achAllInfo].getAchievementData();
-	}
-
 	string getPlatData()
 	{
 		string data = "\nThe name of platform: " + m_platformName + "\n";
@@ -194,17 +202,25 @@ public:
 		data += "\n";
 		return data;
 	}
-
-	string getPlatformName()
+	void getAllPlatData(int platNum)
 	{
-		return m_platformName;
+		for (int i = 0; i < platNum; i++)
+		{
+			cout << this->getPlatData();
+		}
+	}
+	void getAllGameData()
+	{
+		for (int i = 0; i < m_gameNum; i++)
+		{
+			cout << this->m_pGames[i].getGameInfo();
+		}
+	}
+	void getAllAchiInfo(size_t gameNum)
+	{
+		this->m_pGames[gameNum].getAchievementData();
 	}
 
-	string getManufacturer()
-	{
-		return m_manufacturer;
-	}
-	
 	void getPlatformAllInfo(int allItemsNum)
 	{
 		cout << getPlatData() << endl;
@@ -216,17 +232,6 @@ public:
 		}
 	}
 
-	void delGamesArray()
-	{
-		delete[] m_pGames;
-		m_pGames = nullptr;
-	}
-
-	void delAllMem()
-	{
-		m_pGames->deleteAchArray();
-		delGamesArray();
-	}
 };
 
 
@@ -234,12 +239,62 @@ public:
 
 int main()
 {
+	Platform* console = nullptr;
+	size_t consoleNum;
+	string consoleName, manufactureName, gameName, publisher, developer;
+	size_t menuC1 = 0, menuC2 = 0;
+
 	cout << "Dear client, this is a console application for your games and achievements!\n" << endl;
 
-	cout << "You can rename your console.\n" << endl;
+	cout << "Please input the console numbers for this application!\n" << endl;
 
-	
+	// Get number of consoles
+	cin >> consoleNum;
 
-	
+	console = new Platform[consoleNum];
+
+	for (int i = 0; i < consoleNum; i++)
+	{
+		// get name
+		cout << "Please input No." << i+1 << " console's type-name.\n" << endl;
+		
+		getline(cin, consoleName);
+		getline(cin, consoleName);
+		
+		// get manufacture name
+		cout << "Please input No." << i + 1 << " console's manufacturer name.\n" << endl;
+		getline(cin, manufactureName);
+
+		console[i] = Platform(consoleName, manufactureName);
+		cout << console[i].getPlatData();
+
+		// get game number
+		cout << "number";
+		console[i].setGamesSize();
+
+		console[i].setGamesInfo();
+
+	}
+
+	// Main Menu
+	while (menuC1 != 1)
+	{
+		console->getAllPlatData(consoleNum);
+
+		// ask which console they want to check
+		cin >> menuC1;
+
+		console[menuC1 - 1].getAllGameData();
+
+		// which game?
+		cin >> menuC2;
+		console[menuC1 - 1].getAllAchiInfo(menuC2 - 1);
+
+		// wanna go back?
+		//1 no , 2 yes
+		cin >> menuC1;
+	}
+
+
 	return 0;
 }
