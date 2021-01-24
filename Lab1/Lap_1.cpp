@@ -109,10 +109,6 @@ public:
 			cout << "\nThe NO." << i << " Achievement is showing below" << this->m_pAchievements[i - 1].getAchievementsData() << endl;
 		}
 	}
-	size_t getAchiSize()
-	{
-		return m_achiNum;
-	}
 
 	string getGameInfo()
 	{
@@ -128,7 +124,6 @@ public:
 		{
 			cout << this->m_pAchievements[i].getAchievementsData();
 		}
-
 	}
 };
 
@@ -241,7 +236,6 @@ public:
 			m_pGames[i - 1].getAchievementData();
 		}
 	}
-
 };
 
 int main()
