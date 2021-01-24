@@ -73,20 +73,25 @@ public:
 		size_t achSize;
 
 		//set number
+		cout << "\nHow many achievement you want to create?\n";
 		cin >> achSize;
 
 
 		this->setAchievementSize(achSize);
 		for (int i = 0; i < achSize; i++)
 		{
-			// title
+			// set the title of each game's achievement
+			cout << "\nPleas set the title for the No." << i + 1 << " achievement.\n";
 			getline(cin, m_title);
 			getline(cin, m_title);
+			
 			// description
+			cout << "\nYou can add the description for this achievement.\n";
 			getline(cin, m_description);
+			
 			// value
+			cout << "\nYour score is?\n";
 			cin >> m_scoreValue;
-			cout << "AAA";
 			this->m_pAchievements[i] = Achievements(m_title, m_description, m_scoreValue);
 		}
 	}
@@ -101,7 +106,7 @@ public:
 	{
 		for (int i = 1; i <= m_achiNum; i++)
 		{
-			cout << "\nThe NO." << i << "Achievement is" << this->m_pAchievements[i - 1].getAchievementsData() << endl;
+			cout << "\nThe NO." << i << " Achievement is showing below" << this->m_pAchievements[i - 1].getAchievementsData() << endl;
 		}
 	}
 	size_t getAchiSize()
@@ -170,19 +175,24 @@ public:
 
 		for (int i = 0; i < m_gameNum; i++)
 		{
-			// name
-			cout << "n";
+			// show the game number
+			cout << "You just created " << m_gameNum<< " games.\n";
+
+			// ask the user to input the games' name.
+			cout << "\nPlease input the No." << i + 1 << " game's name.\n";
 			getline(cin, gamesName3);
 			getline(cin, gamesName3);
-			// publisher
-			cout << "publisher3";
+			
+			// publisher's name
+			cout << "\nWhat is the name of publisher for this game?\n";
 			getline(cin, publisher3);
-			// developer
-			cout << "developer";
+			
+			// developer's name
+			cout << "\nWhat is the name of developer for this game?\n";
 			getline(cin, developer3);
 
 			this->m_pGames[i] = Games(gamesName3, publisher3, developer3);
-
+			
 			this->m_pGames[i].setAchievementInfo();
 		}
 	}
@@ -225,17 +235,14 @@ public:
 	{
 		cout << getPlatData() << endl;
 
-		for (int k = 1; k <= allItemsNum; k++)
+		for (int i = 1; i <= allItemsNum; i++)
 		{
-			cout << k << ") " << m_pGames[k - 1].getGameInfo() << endl;
-			m_pGames[k - 1].getAchievementData();
+			cout << i << ") " << m_pGames[i - 1].getGameInfo() << endl;
+			m_pGames[i - 1].getAchievementData();
 		}
 	}
 
 };
-
-
-
 
 int main()
 {
@@ -246,7 +253,7 @@ int main()
 
 	cout << "Dear client, this is a console application for your games and achievements!\n" << endl;
 
-	cout << "Please input the console numbers for this application!\n" << endl;
+	cout << "How many console you want to setup?\n" << endl;
 
 	// Get number of consoles
 	cin >> consoleNum;
@@ -255,43 +262,46 @@ int main()
 
 	for (int i = 0; i < consoleNum; i++)
 	{
+		cout << "Please input the name of No." << i+1 << " platform/console\n";
 		// get name
-		cout << "Please input No." << i+1 << " console's type-name.\n" << endl;
-		
 		getline(cin, consoleName);
 		getline(cin, consoleName);
 		
 		// get manufacture name
-		cout << "Please input No." << i + 1 << " console's manufacturer name.\n" << endl;
+		cout << "Please input the name of No." << i+1 << " Manufacture\n";
 		getline(cin, manufactureName);
 
 		console[i] = Platform(consoleName, manufactureName);
 		cout << console[i].getPlatData();
 
 		// get game number
-		cout << "number";
+		cout << "How many games' information you want create?\n";
 		console[i].setGamesSize();
 
 		console[i].setGamesInfo();
-
 	}
 
+	cout << "Congratulation! You just finished the application's setup and information's input.\n";
+	
 	// Main Menu
 	while (menuC1 != 1)
 	{
 		console->getAllPlatData(consoleNum);
 
 		// ask which console they want to check
+		cout << "\nWhich console's information you want to check?(Please input the No.)\n";
 		cin >> menuC1;
 
 		console[menuC1 - 1].getAllGameData();
-
+		
 		// which game?
+		cout << "\nWhich game's information you want to check?(Please input the No.)\n";
 		cin >> menuC2;
 		console[menuC1 - 1].getAllAchiInfo(menuC2 - 1);
 
 		// wanna go back?
 		//1 no , 2 yes
+		cout << "\nDo you want to go back?(1_No; 2_Yes.)\n";
 		cin >> menuC1;
 	}
 
